@@ -183,24 +183,18 @@ namespace MarketsSystem.ViewModel
          (_exportProductCommand = new RelayCommand(
              () =>
              {
-                 HttpWebRequest request = null;
-                 HttpWebResponse response = null;
-                 //Checking Internet access
+
+                
                  try
                  {
-                     request = (HttpWebRequest)WebRequest.Create("http://google.com");
-                     response = (HttpWebResponse)request.GetResponse();
-                     response.Close();
-                 }
+                     User.SetExcelDocuments(Context);
+                     User.SendEmailwithGoogle();
+                    Notify.ErrorInfo = "Email sent";
+             }
                  catch
                  {
-                     Notify.ErrorInfo = "No internet connection";
-                     return;
+                     Notify.ErrorInfo = "Email sent error";
                  }
-
-                 User.SetExcelDocuments(Context);
-                 User.SendEmailwithGoogle();
-                 Notify.ErrorInfo = "Email sent";
 
              },
               () => {

@@ -164,7 +164,7 @@ namespace MarketsSystem.Model
             string headerRange = "A1:" + Char.ConvertFromUtf32(headerRow[0].Length + 64) + "1";
 
             // Target a worksheet
-            var worksheet = excel.Workbook.Worksheets["Markets Monitor"];
+            var worksheet = excel.Workbook.Worksheets["Worksheet1"];
 
             // Popular header row data
             worksheet.Cells[headerRange].LoadFromArrays(headerRow);
