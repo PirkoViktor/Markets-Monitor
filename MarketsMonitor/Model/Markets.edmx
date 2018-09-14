@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="MarketsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Markets">
+          <Key>
+            <PropertyRef Name="marketsId" />
+          </Key>
+          <Property Name="marketsId" Type="int" Nullable="false" />
+          <Property Name="marketName" Type="nvarchar" MaxLength="50" />
+          <Property Name="href" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="productId" />
+          </Key>
+          <Property Name="productId" Type="int" Nullable="false" />
+          <Property Name="productsId" Type="int" />
+          <Property Name="marketsId" Type="int" />
+          <Property Name="productPrice" Type="int" />
+          <Property Name="productHref" Type="int" />
+        </EntityType>
+        <EntityType Name="Produkts">
+          <Key>
+            <PropertyRef Name="productsId" />
+          </Key>
+          <Property Name="productsId" Type="int" Nullable="false" />
+          <Property Name="productsName" Type="nvarchar(max)" />
+          <Property Name="avaragePrice" Type="int" />
+        </EntityType>
+        <Association Name="FK_Product_Markets">
+          <End Role="Markets" Type="Self.Markets" Multiplicity="0..1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Markets">
+              <PropertyRef Name="marketsId" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="marketsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Produkts">
+          <End Role="Produkts" Type="Self.Produkts" Multiplicity="0..1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Produkts">
+              <PropertyRef Name="productsId" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="productsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MarketsModelStoreContainer">
+          <EntitySet Name="Markets" EntityType="Self.Markets" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Produkts" EntityType="Self.Produkts" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Product_Markets" Association="Self.FK_Product_Markets">
+            <End Role="Markets" EntitySet="Markets" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Produkts" Association="Self.FK_Product_Produkts">
+            <End Role="Produkts" EntitySet="Produkts" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MarketsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Market">
+          <Key>
+            <PropertyRef Name="marketsId" />
+          </Key>
+          <Property Name="marketsId" Type="Int32" Nullable="false" />
+          <Property Name="marketName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="href" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Products" Relationship="Self.FK_Product_Markets" FromRole="Markets" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="productId" />
+          </Key>
+          <Property Name="productId" Type="Int32" Nullable="false" />
+          <Property Name="productsId" Type="Int32" />
+          <Property Name="marketsId" Type="Int32" />
+          <Property Name="productPrice" Type="Int32" />
+          <Property Name="productHref" Type="Int32" />
+          <NavigationProperty Name="Market" Relationship="Self.FK_Product_Markets" FromRole="Product" ToRole="Markets" />
+          <NavigationProperty Name="Produkt" Relationship="Self.FK_Product_Produkts" FromRole="Product" ToRole="Produkts" />
+        </EntityType>
+        <EntityType Name="Produkt">
+          <Key>
+            <PropertyRef Name="productsId" />
+          </Key>
+          <Property Name="productsId" Type="Int32" Nullable="false" />
+          <Property Name="productsName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="avaragePrice" Type="Int32" />
+          <NavigationProperty Name="Products" Relationship="Self.FK_Product_Produkts" FromRole="Produkts" ToRole="Product" />
+        </EntityType>
+        <Association Name="FK_Product_Markets">
+          <End Role="Markets" Type="Self.Market" Multiplicity="0..1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Markets">
+              <PropertyRef Name="marketsId" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="marketsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Produkts">
+          <End Role="Produkts" Type="Self.Produkt" Multiplicity="0..1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Produkts">
+              <PropertyRef Name="productsId" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="productsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MarketsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Markets" EntityType="Self.Market" />
+          <EntitySet Name="Products" EntityType="Self.Product" />
+          <EntitySet Name="Produkts" EntityType="Self.Produkt" />
+          <AssociationSet Name="FK_Product_Markets" Association="Self.FK_Product_Markets">
+            <End Role="Markets" EntitySet="Markets" />
+            <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Produkts" Association="Self.FK_Product_Produkts">
+            <End Role="Produkts" EntitySet="Produkts" />
+            <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MarketsModelStoreContainer" CdmEntityContainer="MarketsEntities">
+          <EntitySetMapping Name="Markets">
+            <EntityTypeMapping TypeName="MarketsModel.Market">
+              <MappingFragment StoreEntitySet="Markets">
+                <ScalarProperty Name="marketsId" ColumnName="marketsId" />
+                <ScalarProperty Name="marketName" ColumnName="marketName" />
+                <ScalarProperty Name="href" ColumnName="href" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="MarketsModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="productId" ColumnName="productId" />
+                <ScalarProperty Name="productsId" ColumnName="productsId" />
+                <ScalarProperty Name="marketsId" ColumnName="marketsId" />
+                <ScalarProperty Name="productPrice" ColumnName="productPrice" />
+                <ScalarProperty Name="productHref" ColumnName="productHref" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Produkts">
+            <EntityTypeMapping TypeName="MarketsModel.Produkt">
+              <MappingFragment StoreEntitySet="Produkts">
+                <ScalarProperty Name="productsId" ColumnName="productsId" />
+                <ScalarProperty Name="productsName" ColumnName="productsName" />
+                <ScalarProperty Name="avaragePrice" ColumnName="avaragePrice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
